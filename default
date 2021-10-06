@@ -32,6 +32,14 @@
             proxy_set_header Host $host;
             proxy_set_header Authorization $http_authorization;
             proxy_pass http://localhost:9876/api;
+            add_header Cache-Control "max-age=120";
+        }
+
+        location /fleetview {
+            proxy_set_header Host $host;
+            proxy_set_header Authorization $http_authorization;
+            proxy_pass http://localhost:9878/fleetview;
+            add_header Content-Type "image/jpg";
         }
 
         location /ws {
