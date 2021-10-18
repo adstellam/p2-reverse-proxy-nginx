@@ -1,3 +1,4 @@
+htttp {
     #
     # Default server configuration
     #
@@ -7,7 +8,7 @@
         listen 80;
         listen [::]:80;
         listen 443 ssl;
-        #server_name go.stoutagtech.com;
+        server_name go.stoutagtech.com;
         ssl_certificate /etc/ssl/certs/stout-self-signed.crt;
         ssl_certificate_key /etc/ssl/private/stout-self-signed.key;        
 
@@ -15,16 +16,29 @@
             root /opt/angular/dist;
             try_files $uri /index.html;
         }
+
+        location /api {
+            proxy_set_header Host $host;
+            proxy_set_header Authorization $http_authorization;
+            proxy_pass http://localhost:9876/api;
+            add_header Cache-Control "max-age=120";
+        }
+
+        location /fleetview {
+            proxy_set_header Host $host;
+            proxy_set_header Authorization $http_authorization;
+            proxy_pass http://50.18.244.10:9878/fleetview;
+            add_header Cache-Control "max-age=120";
+            add_header Content-Type "image/jpeg";
+        }
     
     }
 
     server {
 
         charset utf-8;
-        listen 22080;
-        listen [::]:22080;
         listen 22443 ssl;
-        #server_name api.stoutagtech.com;
+        server_name api.stoutagtech.com;
         ssl_certificate /etc/ssl/certs/stout-node-server.crt;
         ssl_certificate_key /etc/ssl/private/stout-node-server.key;   
 
@@ -38,7 +52,7 @@
         location /fleetview {
             proxy_set_header Host $host;
             proxy_set_header Authorization $http_authorization;
-            proxy_pass https://54.176.188.219:9878/fleetview;
+            proxy_pass http://54.176.188.219:9878/fleetview;
             add_header Cache-Control "max-age=120";
             add_header Content-Type "image/jpeg";
         }
@@ -54,3 +68,5 @@
     #   }
 
     }
+    
+}
