@@ -10,6 +10,6 @@ COPY default /etc/nginx/conf.d/default.conf
 
 # Expose listening ports and declare volume mount paths.
 EXPOSE 80 443 22080 22443
-VOLUME ["/opt/angular/dist", "/etc/ssl", "/var/log/nginx"]
+VOLUME ["/opt/angular/dist", "/etc/letsencrypt", "/var/log/nginx"]
 
 # Use ENTRYPOINT and CMD of the base nginx image.
