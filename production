@@ -9,11 +9,6 @@
         ssl_certificate /etc/letsencrypt/live/go.stoutagtech.com/fullchain.pem; # managed by Certbot
         ssl_certificate_key /etc/letsencrypt/live/go.stoutagtech.com/privkey.pem; # managed by Certbot
 
-        location / {
-            root /opt/angular/dist;
-            try_files $uri /index.html;
-        }
-        
         location /api {
             proxy_set_header Host $host;
             proxy_set_header Authorization $http_authorization;
@@ -24,43 +19,26 @@
         location /fleetview {
             proxy_set_header Host $host;
             proxy_set_header Authorization $http_authorization;
-            proxy_pass http://localhost:9878/fleetview;
+            proxy_pass http://54.176.188.219:9878/fleetview;
             add_header Cache-Control "max-age=120";
             add_header Content-Type "image/jpeg";
         }    
 
-    }
-
-    server {
-
-        charset utf-8;
-        listen 22443 ssl;
-        server_name go.stoutagtech.com;
-        ssl_certificate /etc/letsencrypt/live/go.stoutagtech.com/fullchain.pem; # managed by Certbot
-        ssl_certificate_key /etc/letsencrypt/live/go.stoutagtech.com/privkey.pem; # managed by Certbot   
-
-    #   location /ws {
-    #       proxy_http_version 1.1;
-    #       proxy_set_header Upgrade $http_upgrade;
-    #       proxy_set_header Connection "upgrade";
-    #       proxy_set_header Host $host;
-    #       proxy_set_header Authorization $http_authorization;
-    #       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    #       proxy_pass http://localhost:8080;
-    #   }
+        location / {
+            root /opt/angular/dist;
+            try_files $uri /index.html;
+        }
 
     }
 
     server {
-    if ($host = go.stoutagtech.com) {
-        return 301 https://$host$request_uri;
-    } # managed by Certbot
 
-
+        if ($host = go.stoutagtech.com) {
+            return 301 https://$host$request_uri;
+        } # managed by Certbot
         listen 80;
         listen [::]:80;
         server_name go.stoutagtech.com;
-    return 404; # managed by Certbot
+        return 404; # managed by Certbot
 
-
-}
+    }
