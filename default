@@ -35,10 +35,19 @@
             add_header Cache-Control "max-age=120";
         }
 
-        location /fleetview {
+        location /fleetview/blob {
             proxy_set_header Host $host;
             proxy_set_header Authorization $http_authorization;
-            proxy_pass http://localhost:9878/fv;
+            proxy_pass http://localhost:9878/blob;
+            add_header Content-Type "image/jpeg";
+            add_header Cache-Control "max-age=120";
+        }
+
+        location /fleetview/meta {
+            proxy_set_header Host $host;
+            proxy_set_header Authorization $http_authorization;
+            proxy_pass http://localhost:9878/meta;
+            add_header Content-Type "application/json";
             add_header Cache-Control "max-age=120";
         }
 
