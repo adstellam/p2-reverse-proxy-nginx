@@ -38,9 +38,8 @@
         location /fleetview {
             proxy_set_header Host $host;
             proxy_set_header Authorization $http_authorization;
-            proxy_pass http://54.176.188.219:9878/;
+            proxy_pass http://localhost:9878/fv;
             add_header Cache-Control "max-age=120";
-            add_header Content-Type "image/jpeg";
         }
 
     #   location /ws {
